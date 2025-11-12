@@ -1,0 +1,9 @@
+[project]
+name = "weatherachtung"
+version = "0.1.0"
+description = "Weather Alert app"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.121.1",
+    "uvicorn>=0.38.0",
+]
