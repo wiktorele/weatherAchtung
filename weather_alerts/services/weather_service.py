@@ -57,10 +57,10 @@ class WeatherService:
             resp.raise_for_status()
             return resp.json()
         except httpx.HTTPStatusError as e:
-            # 404 city not found, 401 invalid key, etc.
-            # Log/handle as needed; return None for now
+            print(f"❌ HTTP Error {e.response.status_code}: {e.response.text}")
             return None
-        except httpx.HTTPError:
+        except httpx.HTTPError as e:
+            print(f"❌ HTTP Error: {e}")
             return None
         finally:
             if self._client is None:
