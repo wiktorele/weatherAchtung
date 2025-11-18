@@ -1,7 +1,7 @@
 
 from fastapi import FastAPI
 from weather_alerts.config.settings import settings
-from weather_alerts.api import Users as users, Alerts as alerts
+from weather_alerts.api import users as users, alerts as alerts
 
 app = FastAPI(
     title=settings.app_name,

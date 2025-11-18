@@ -3,7 +3,7 @@ from typing import Dict, List
 import uuid
 from datetime import datetime
 
-from weather_alerts.models.User import User, UserCreate, UserUpdate
+from weather_alerts.models.user import User, UserCreate, UserUpdate
 
 router = APIRouter()
 

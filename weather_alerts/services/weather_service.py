@@ -57,10 +57,10 @@ class WeatherService:
             resp.raise_for_status()
             return resp.json()
         except httpx.HTTPStatusError as e:
-            print(f"❌ HTTP Error {e.response.status_code}: {e.response.text}")
+            print(f"HTTP Error {e.response.status_code}: {e.response.text}")
             return None
         except httpx.HTTPError as e:
-            print(f"❌ HTTP Error: {e}")
+            print(f"HTTP Error: {e}")
             return None
         finally:
             if self._client is None:

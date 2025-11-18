@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query
 from typing import List, Optional
 
-from weather_alerts.models.Alert import Alert
+from weather_alerts.models.alert import Alert
 
 router = APIRouter()
 
