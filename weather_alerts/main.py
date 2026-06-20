@@ -1,13 +1,48 @@
-
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
+import logging
+import asyncio
+
 from weather_alerts.config.settings import settings
 from weather_alerts.api import users as users, alerts as alerts
+from weather_alerts.services.weather_check_service import WeatherCheckService
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+async def run_periodic_weather_checks():
+    """Background task to check weather periodically"""
+    service = WeatherCheckService()
+
+    while True:
+        if settings.enable_background_checks:
+            logger.info("Running background weather check...")
+            await service.check_all_users()
+
+        # Wait for next cycle
+        await asyncio.sleep(settings.weather_check_interval_seconds)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: Launch background task
+    task = asyncio.create_task(run_periodic_weather_checks())
+    yield
+    # Shutdown: Cancel task
+    task.cancel()
+    try:
+        await task
+    except asyncio.CancelledError:
+        pass
+
 
 app = FastAPI(
     title=settings.app_name,
     description="Weather alert notification system - monitors weather and sends alerts",
     version="1.0.0",
     debug=settings.debug,
+    lifespan=lifespan
 )
 
 
